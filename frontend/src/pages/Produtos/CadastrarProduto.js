@@ -2,6 +2,7 @@ import '../style.css';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from '../../contexts/ToastContext';
+import { validarCamposNumericos } from '../../utils/Validation';
 
 export default function CadastrarProduto() {
     const navigate = useNavigate();
@@ -11,6 +12,8 @@ export default function CadastrarProduto() {
     const [stock, setStock] = useState('');
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
+    const [errorPrice, setErrorPrice] = useState(false);
+    const [errorStock, setErrorStock] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -35,6 +38,9 @@ export default function CadastrarProduto() {
             console.error('Erro ao conectar com o servidor.', error);
             showToast('Erro ao conectar com o servidor.', 'error');
         }
+
+        const isValid = validarCamposNumericos({price, stock, setErrorPrice, setErrorStock, showToast});
+        if (!isValid) return;
     };
 
     return (
@@ -55,11 +61,13 @@ export default function CadastrarProduto() {
                     <div className="row mt-4 mb-3">
                         <div className="col-md-6">
                             <label className="form-label">Preço</label>
-                            <input type='text' className="form-control" id='price' placeholder='Digite o preço (R$)' value={price} onChange={e => setPrice(e.target.value)} required />
+                            <input type='text' className={`form-control ${errorPrice ? 'is-invalid' : ''}`} id='price' placeholder='Digite o preço (R$)' value={price} onChange={(e) => { setPrice(e.target.value); setErrorPrice(false) }} required />
+                            {errorPrice && (<div className="invalid-feedback">Insira um valor numérico válido.</div>)}
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Quantidade</label>
-                            <input type='text' className="form-control" id='stock' placeholder='Digite a quantidade' value={stock} onChange={e => setStock(e.target.value)} required />
+                            <input type='text' className={`form-control ${errorStock ? 'is-invalid' : ''}`} id='stock' placeholder='Digite a quantidade' value={stock} onChange={(e) => { setStock(e.target.value); setErrorStock(false) }} required />
+                            {errorStock && (<div className="invalid-feedback">Insira um valor numérico válido.</div>)}
                         </div>
                     </div>
                     <div className="mt-4 mb-3">
