@@ -1,13 +1,12 @@
 import '../style.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useToast } from '../../contexts/ToastContext';
 import { validarCamposNumericos } from '../../utils/Validation';
+import { toast } from 'react-toastify';
 
-export default function EditarProduto() {
+export default function UpdateProduct() {
     const { id } = useParams(); //Extrai parâmetros (id) da URL.
     const navigate = useNavigate(); //Navega entre rotas.
-    const { showToast } = useToast();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [stock, setStock] = useState('');
@@ -28,43 +27,46 @@ export default function EditarProduto() {
                 setCategory(data.category);
             } catch (error) {
                 console.error('Erro ao conectar com o servidor.', error);
-                showToast('Erro ao carregar os dados do produto.', 'error');
+                toast.error('Erro ao carregar os dados do produto.');
             }
         };
         CarregarProduto();
-    }, [id, showToast]);
+    }, [id]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const UpdateProduct = { id: Number(id), name, description, stock: Number(stock), price: parseFloat(price).toFixed(2), category };
+        const updateProduct = { id: Number(id), name, description, stock: Number(stock), price: parseFloat(price).toFixed(2), category };
 
         try {
             const res = await fetch(`http://localhost:3000/products/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(UpdateProduct)
+                body: JSON.stringify(updateProduct)
             });
             if (res.ok) {
-                showToast('Produto editado com sucesso!', 'success');
+                toast.success('Produto editado com sucesso!');
                 setTimeout(() => {
                     navigate('/products');
                 }, 1500);
             } else {
-                showToast('Erro ao editar produto.', 'error');
-            }
+                toast.error('Erro ao editar produto.');
+            };
         } catch (error) {
             console.error('Erro ao conectar com o servidor.', error);
-            showToast('Erro ao conectar com o servidor.', 'error');
-        }
+            toast.error('Erro ao conectar com o servidor.');
+        };
 
-        const isValid = validarCamposNumericos({price, stock, setErrorPrice, setErrorStock, showToast});
+        const isValid = validarCamposNumericos({ price, stock, setErrorPrice, setErrorStock });
         if (!isValid) return;
     };
 
     return (
         <div className="container">
             <h2 className='mb-4 text-center'>Editar Produto</h2>
+            <p className='text-center text-muted mb-4'>
+                Atualize as informações do produto abaixo.
+            </p>
             <div className="card shadow border p-4">
                 <form onSubmit={handleSubmit}>
                     <div className="row mt-4 mb-3">
@@ -79,7 +81,7 @@ export default function EditarProduto() {
                     </div>
                     <div className="row mt-4 mb-3">
                         <div className="col-md-6">
-                            <label className="form-label">Preço</label>
+                            <label className="form-label">Preço (R$)</label>
                             <input type='text' className={`form-control ${errorPrice ? 'is-invalid' : ''}`} id='price' placeholder='Digite o preço (R$)' value={price} onChange={(e) => { setPrice(e.target.value); setErrorPrice(false) }} required />
                             {errorPrice && (<div className="invalid-feedback">Insira um valor numérico válido.</div>)}
                         </div>

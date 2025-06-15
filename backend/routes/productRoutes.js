@@ -1,18 +1,12 @@
-const cors = require('cors');
-const express = require('express');
-const { PrismaClient } = require('@prisma/client');
-require('dotenv').config({ path: '../.env' });
-
-const app = express();
+import express from 'express';
+import { PrismaClient } from '@prisma/client';
+const router = express.Router();
 const prisma = new PrismaClient();
 
-app.use(cors());
-app.use(express.json());
-
 //CREATE
-app.post('/products', async (req, res) => {
+router.post('/', async (req, res) => {
+    const { name, description, stock, price, category } = req.body;
     try {
-        const { name, description, stock, price, category } = req.body;
         const product = await prisma.product.create({ data: { name, description, stock, price, category } });
         res.json(product);
     } catch (error) {
@@ -22,7 +16,7 @@ app.post('/products', async (req, res) => {
 });
 
 //READ
-app.get('/products', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const products = await prisma.product.findMany();
         res.json(products);
@@ -33,7 +27,7 @@ app.get('/products', async (req, res) => {
 });
 
 //READ por ID
-app.get('/products/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const product = await prisma.product.findUnique({ where: { id: Number(id) } });
@@ -45,7 +39,7 @@ app.get('/products/:id', async (req, res) => {
 });
 
 //UPDATE
-app.put('/products/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     const { id } = req.params;
     const { name, description, stock, price, category } = req.body;
     try {
@@ -58,7 +52,7 @@ app.put('/products/:id', async (req, res) => {
 });
 
 //DELETE
-app.delete('/products/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await prisma.product.delete({ where: { id: Number(id) } });
@@ -69,7 +63,4 @@ app.delete('/products/:id', async (req, res) => {
     };
 });
 
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+export default router;
