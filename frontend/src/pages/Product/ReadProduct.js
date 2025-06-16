@@ -26,8 +26,10 @@ export default function ReadProduct() {
     //Função para deletar produto.
     async function DeleteProduct(id) {
         try {
+            const token = localStorage.getItem('token');
             const res = await fetch(`http://localhost:3000/products/${id}`, {
                 method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
             });
             if (res.ok) {
                 toast.success('Produto excluído com sucesso!');

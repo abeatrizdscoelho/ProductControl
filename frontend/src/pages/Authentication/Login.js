@@ -20,6 +20,9 @@ export default function Login() {
                     body: JSON.stringify(user)
                 });
                 if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('token', data.token);
+                    console.log('Token:', data.token);
                     toast.success('Usuário logado com sucesso!');
                     setTimeout(() => {
                         navigate('/home');

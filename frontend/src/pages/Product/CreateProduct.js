@@ -17,12 +17,16 @@ export default function CreateProduct() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const isValid = validarCamposNumericos({ price, stock, setErrorPrice, setErrorStock });
+        if (!isValid) return;
+
         const newProduct = { name, description, stock: Number(stock), price: parseFloat(price).toFixed(2), category };
 
         try {
+            const token = localStorage.getItem('token');
             const res = await fetch('http://localhost:3000/products', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
                 body: JSON.stringify(newProduct)
             });
             if (res.ok) {
@@ -37,9 +41,6 @@ export default function CreateProduct() {
             console.error('Erro ao conectar com o servidor.', error);
             toast.error('Erro ao conectar com o servidor.');
         }
-
-        const isValid = validarCamposNumericos({ price, stock, setErrorPrice, setErrorStock });
-        if (!isValid) return;
     };
 
     return (

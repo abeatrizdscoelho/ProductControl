@@ -10,8 +10,8 @@ export default function Home() {
           Gerencie seus produtos de forma simples e prática.
         </p>
         <div className="row g-4 d-flex justify-content-center">
-          {[{ title: 'Produtos', desc: 'Visualize e gerencie os produtos.', col: 4, route: '/products' },
-            { title: 'Cadastro', desc: 'Cadastre novos produtos no sistema.', col: 4, route: '/products/create' }]
+          {[{ title: 'Produtos', desc: 'Confira a lista de produtos e realize alterações quando quiser.', col: 4, route: '/products' },
+            { title: 'Cadastro', desc: 'Adicione novos produtos ao sistema de maneira eficiente.', col: 4, route: '/products/create' }]
            .map((item, index) => (
             <div className={`col-md-${item.col}`} key={index}>
               <div className="card h-100">
