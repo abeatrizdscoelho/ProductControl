@@ -10,7 +10,10 @@ export default function ReadProduct() {
     //'await' - Espera o resultado do 'fetch' e depois do 'res.json()', para não usar '.then'.
     const CarregarProdutos = async () => {
         try {
-            const res = await fetch('http://localhost:3000/products');
+            const token = localStorage.getItem('token');
+            const res = await fetch('http://localhost:3000/products', {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
             const data = await res.json();
             setProducts(data);
         } catch (error) {

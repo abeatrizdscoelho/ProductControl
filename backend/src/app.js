@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes); //Rotas públicas.
 app.use('/auth', auth, authPrivateRoutes); //Antes de qualquer rota privada, ele passa pelo middleware.
-app.use('/products', productRoutes);
+app.use('/products', auth, productRoutes);
 
 app.get('/', (req, res) => {
   res.send('API funcionando corretamente!');

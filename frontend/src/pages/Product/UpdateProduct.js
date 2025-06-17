@@ -18,7 +18,10 @@ export default function UpdateProduct() {
     useEffect(() => {
         async function CarregarProduto() {
             try {
-                const res = await fetch(`http://localhost:3000/products/${id}`);
+                const token = localStorage.getItem('token');
+                const res = await fetch(`http://localhost:3000/products/${id}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
                 const data = await res.json();
                 setName(data.name);
                 setDescription(data.description);
@@ -38,7 +41,7 @@ export default function UpdateProduct() {
 
         const isValid = validarCamposNumericos({ price, stock, setErrorPrice, setErrorStock });
         if (!isValid) return;
-        
+
         const updateProduct = { id: Number(id), name, description, stock: Number(stock), price: parseFloat(price).toFixed(2), category };
 
         try {
