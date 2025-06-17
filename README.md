@@ -8,7 +8,7 @@ Os usuários precisam se cadastrar e fazer login para acessar a área de gerenci
 
 ## 🔗 Demonstração do Projeto
 
-📽️ Veja o vídeo do projeto rodando: [Clique aqui para assistir](https://link-do-video-aqui.com)
+📽️ Veja o vídeo do projeto rodando: [Clique aqui para assistir](https://youtu.be/UQCOrq3YJ58)
 
 <br>
 

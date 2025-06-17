@@ -76,22 +76,22 @@ export default function UpdateProduct() {
                     <div className="row mt-4 mb-3">
                         <div className="col-md-6">
                             <label className="form-label">Nome</label>
-                            <input type="text" className="form-control" id="name" placeholder="Digite o nome do produto" value={name} onChange={e => setName(e.target.value)} required />
+                            <input type="text" className="form-control" id="name" placeholder="Nome do produto" value={name} onChange={e => setName(e.target.value)} required />
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Categoria</label>
-                            <input type="text" className="form-control" id="category" placeholder="Digite a categoria do produto" value={category} onChange={e => setCategory(e.target.value)} required />
+                            <input type="text" className="form-control" id="category" placeholder="Categoria do produto" value={category} onChange={e => setCategory(e.target.value)} required />
                         </div>
                     </div>
                     <div className="row mt-4 mb-3">
                         <div className="col-md-6">
                             <label className="form-label">Preço (R$)</label>
-                            <input type='text' className={`form-control ${errorPrice ? 'is-invalid' : ''}`} id='price' placeholder='Digite o preço (R$)' value={price} onChange={(e) => { setPrice(e.target.value); setErrorPrice(false) }} required />
+                            <input type='text' className={`form-control ${errorPrice ? 'is-invalid' : ''}`} id='price' placeholder='Preço do produto' value={price} onChange={(e) => { setPrice(e.target.value); setErrorPrice(false) }} required />
                             {errorPrice && (<div className="invalid-feedback">Insira um valor numérico válido.</div>)}
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Quantidade</label>
-                            <input type='text' className={`form-control ${errorStock ? 'is-invalid' : ''}`} id='stock' placeholder='Digite a quantidade' value={stock} onChange={(e) => { setStock(e.target.value); setErrorStock(false) }} required />
+                            <input type='text' className={`form-control ${errorStock ? 'is-invalid' : ''}`} id='stock' placeholder='Quantidade' value={stock} onChange={(e) => { setStock(e.target.value); setErrorStock(false) }} required />
                             {errorStock && (<div className="invalid-feedback">Insira um valor numérico válido.</div>)}
                         </div>
                     </div>
