@@ -25,8 +25,8 @@ export default function UpdateProduct() {
                 const data = await res.json();
                 setName(data.name);
                 setDescription(data.description);
-                setStock(data.stock);
-                setPrice(data.price);
+                setStock(String(data.stock));
+                setPrice(String(data.price));
                 setCategory(data.category);
             } catch (error) {
                 console.error('Erro ao conectar com o servidor.', error);
